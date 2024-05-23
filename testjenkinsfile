@@ -1,19 +1,15 @@
 pipeline{
-    agent stage('Dep install'){
-            agent { docker { image 'nodej:14.18.0'
-            args 'u root:root'}}
+    agent any
 
     stages{
-        
+        stage('Dep install'){
+            agent { docker { image 'nodejs'}}
             steps{
-                //sh 'npm cache clean'
-               // sh 'sudo chown -R 995:993 "/.npm"'
+                sh 'cat /etc/os-release'
+                sh 'apt update'
+                sh 'apt install sudo -y'
+                sh 'sudo chown -R 995:993 "/.npm"'
                 sh 'npm install'
-            }
-        }
-        stage('package'){
-            steps{
-                sh 'npm pack'
             }
         }
     }
